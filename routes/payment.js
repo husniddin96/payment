@@ -28,7 +28,11 @@ router
         let { user, body } = req
 
         if (body.amount <= 0) {
-            return res.status(400).json({ err, msg: "Amount must be > 0!", result: null })
+            return res.status(400).json({ err: null, msg: "Amount must be > 0!", result: null })
+        }
+
+        if (user.phone === body.phone) {
+            return res.status(400).json({ err: null, msg: "You can't accept payment from yourself!", result: null })
         }
 
         let senderBalance = req.user.balance
@@ -86,7 +90,7 @@ router
             )
         })
 
-        res.send({ user, body })
+        res.json({ err: null, msg: "Successfully transferred!", result: true })
 
     })
     .post('/api/cancel', auth, (req, res) => {
@@ -107,7 +111,7 @@ router
                 return res.status(403).json({ err: null, msg: "You don't have access to cancel this transaction", result: null })
             }
 
-            if(transaction.status == 0){
+            if (transaction.status == 0) {
                 return res.status(400).json({ err: null, msg: "Transaction is already canceled!", result: null })
             }
 
