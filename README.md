@@ -22,7 +22,7 @@ Before requesting to API you need to:
 ## Following requests are implemented in this project
 
 !NOTE: Every request need to executed with Basic authorization. In our case phone:password is encrypted.
-Data exchange format is JSON.
+Data exchange format is JSON. Here are sample requiests:
 
 'verify' request:
 
