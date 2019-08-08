@@ -1,4 +1,4 @@
-const User = require('../models/User')
+const { User } = require('../models/User')
 
 module.exports.auth = (req, res, next) => {
 
@@ -9,22 +9,21 @@ module.exports.auth = (req, res, next) => {
     User.findOne({ phone: phone }, (err, user) => {
 
         if (err) {
-            res.status(400).json({ err })
+            return res.status(400).json({ err })
         }
 
         if (!user) {
-            res.status(404).json({ msg: 'User with this phone number is not found!' })
+            return res.status(404).json({ msg: 'User with this phone number is not found!' })
         }
 
         let success = user.comparePassword(password)
 
         if (!success) {
-            res.send()
+            return res.status(401).json({ msg: 'Invalid password!' })
         }
 
         req.user = user
 
         next()
-
     })
 }
